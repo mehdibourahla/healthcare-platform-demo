@@ -10,12 +10,20 @@ def setup_logging():
         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
     )
 
-def initialize_qdrant_client(host: str, port: int) -> Optional[QdrantClient]:
-    """Initialize Qdrant client with error handling"""
+def initialize_qdrant_client(host: str, port: int, api_key: str = None):
+    """Initialize Qdrant client for cloud deployment"""
     try:
-        client = QdrantClient(host=host, port=port)
-        # Test connection
-        client.get_collections()
+        if api_key:
+            client = QdrantClient(
+                host=host,
+                port=port, 
+                api_key=api_key,
+                https=True
+            )
+        else:  # Local deployment
+            client = QdrantClient(host=host, port=port)
+        
+        client.get_collections()  # Test connection
         return client
     except Exception as e:
         st.warning(f"Qdrant connection failed: {e}. Using fallback mode.")

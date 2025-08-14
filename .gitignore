@@ -4,6 +4,7 @@
 .env
 .env.local
 .env.production
+.streamlit/secrets.toml
 
 # Python
 __pycache__/

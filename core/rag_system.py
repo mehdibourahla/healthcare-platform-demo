@@ -1,6 +1,7 @@
 import streamlit as st
 from typing import Dict, List, Optional
 from qdrant_client import QdrantClient
+from config import QDRANT_HOST, QDRANT_PORT, QDRANT_API_KEY
 from qdrant_client.models import Distance, VectorParams, PointStruct
 import openai
 import logging

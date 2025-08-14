@@ -5,7 +5,7 @@ import openai
 
 # Import configuration
 from config import (
-    QDRANT_HOST, QDRANT_PORT, OPENAI_API_KEY, STREAMLIT_CONFIG
+    QDRANT_HOST, QDRANT_PORT, QDRANT_API_KEY, OPENAI_API_KEY, STREAMLIT_CONFIG
 )
 
 # Import core systems
@@ -54,7 +54,9 @@ class HealthcarePlatformDemo:
                 st.stop()
             
             # Initialize Qdrant client
-            self.qdrant_client = initialize_qdrant_client(QDRANT_HOST, QDRANT_PORT)
+            self.qdrant_client = initialize_qdrant_client(
+                QDRANT_HOST, QDRANT_PORT, QDRANT_API_KEY
+            )
             
             # Initialize core systems
             self.rag_system = MedicalKnowledgeRAG(self.qdrant_client)
