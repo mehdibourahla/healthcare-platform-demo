@@ -5,7 +5,7 @@ import openai
 
 # Import configuration
 from config import (
-    QDRANT_HOST, QDRANT_PORT, QDRANT_API_KEY, OPENAI_API_KEY, STREAMLIT_CONFIG
+    QDRANT_HOST, QDRANT_API_KEY, OPENAI_API_KEY, STREAMLIT_CONFIG
 )
 
 # Import core systems
@@ -55,7 +55,7 @@ class HealthcarePlatformDemo:
             
             # Initialize Qdrant client
             self.qdrant_client = initialize_qdrant_client(
-                QDRANT_HOST, QDRANT_PORT, QDRANT_API_KEY
+                QDRANT_HOST, QDRANT_API_KEY
             )
             
             # Initialize core systems

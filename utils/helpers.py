@@ -15,10 +15,8 @@ def initialize_qdrant_client(host: str, port: int, api_key: str = None):
     try:
         if api_key:
             client = QdrantClient(
-                host=host,
-                port=port, 
+                url=host,
                 api_key=api_key,
-                https=True
             )
         else:  # Local deployment
             client = QdrantClient(host=host, port=port)
