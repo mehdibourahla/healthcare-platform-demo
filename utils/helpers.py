@@ -10,7 +10,7 @@ def setup_logging():
         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
     )
 
-def initialize_qdrant_client(host: str, port: int, api_key: str = None):
+def initialize_qdrant_client(host: str, api_key: str = None):
     """Initialize Qdrant client for cloud deployment"""
     try:
         if api_key:
@@ -18,8 +18,6 @@ def initialize_qdrant_client(host: str, port: int, api_key: str = None):
                 url=host,
                 api_key=api_key,
             )
-        else:  # Local deployment
-            client = QdrantClient(host=host, port=port)
         
         client.get_collections()  # Test connection
         return client
