@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  # Qdrant Vector Database
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: healthcare_qdrant
+    ports:
+      - "6333:6333"
+      - "6334:6334"
+    volumes:
+      - qdrant_storage:/qdrant/storage
+    environment:
+      - QDRANT__SERVICE__HTTP_PORT=6333
+      - QDRANT__SERVICE__GRPC_PORT=6334
+    networks:
+      - healthcare_network
+
+  # Streamlit Healthcare App
+  healthcare_app:
+    build: .
+    container_name: healthcare_streamlit
+    ports:
+      - "8501:8501"
+    environment:
+      - QDRANT_HOST=qdrant
+      - QDRANT_PORT=6333
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    volumes:
+      - .:/app
+    depends_on:
+      - qdrant
+    networks:
+      - healthcare_network
+    restart: unless-stopped
+
+  # Redis for caching (optional but recommended)
+  redis:
+    image: redis:7-alpine
+    container_name: healthcare_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - healthcare_network
+    command: redis-server --appendonly yes
+
+volumes:
+  qdrant_storage:
+    driver: local
+  redis_data:
+    driver: local
+
+networks:
+  healthcare_network:
+    driver: bridge
